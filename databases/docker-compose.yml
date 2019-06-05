@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mysql-server-57:
+    image: mysql/mysql-server:5.7
+    container_name: local_fn_mysql
+    volumes:
+    - ./mysql:/docker-entrypoint-initdb.d/
+    ports:
+    - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'mysql'
+      MYSQL_USER: 'test'
+      MYSQL_PASSWORD: 'test'
+      MYSQL_DATABASE: 'test'
+      MYSQL_ROOT_HOST: '%'
+
+  cassandra:
+    image: cassandra:3.11
+    container_name: local_fn_cassandra
+    ports:
+    - "9042:9042"
+    environment:
+    - "MAX_HEAP_SIZE=256M"
+    - "HEAP_NEWSIZE=128M"
+    restart: always
+    volumes:
+    - ./cassandra:/var/lib/cassandra
